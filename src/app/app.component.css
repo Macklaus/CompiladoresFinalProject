@@ -1,0 +1,78 @@
+.appContainer {
+  max-width: 1200px;
+  min-width: 300px;
+  margin: 0 auto;
+}
+
+header {
+  padding: 10px 20px;
+  justify-content: space-between;
+  background-color: #880E4F;
+  box-shadow: 0px 3px 10px -1px rgba(0, 0, 0, 0.75);
+}
+
+header h1,
+.logInContainer div a,
+.filterContainer div div a {
+  color: #FFFFFF;
+  margin: 0 15px;
+}
+
+header h1 {
+  font-family: 'Indie Flower', cursive;
+}
+
+.logInContainer {
+  align-items: center;
+}
+
+.bodyContainer {
+  background-color: #9B0022;
+}
+
+.filterContainer {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterContainer div div {
+  padding: 30px;
+  cursor: pointer;
+}
+
+.filterActivated {
+  border-bottom: 2px solid #FFFFFF;
+}
+
+.filterNoActivated {
+  border-bottom: none;
+}
+
+.addNewPlace {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin-right: 50px;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 30px;
+  cursor: pointer;
+  background-color: #FFFFFF;
+  color: #880E4F;
+  box-shadow: 0px 0px 38px -8px rgba(0, 0, 0, 1);
+}
+
+.listContainer {
+  min-height: 80vh;
+}
+
+.listContainer .list {
+  width: 70%;
+  background-color: aqua;
+}
+
+.listContainer .sidebar {
+  width: 30%;
+  background-color: black;
+}
