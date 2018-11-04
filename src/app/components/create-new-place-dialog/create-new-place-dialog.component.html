@@ -1,0 +1,46 @@
+<div class="dialogContainer">
+  <div>
+    <h2 class="title-place-dialog">Crea un Nuevo Lugar!</h2>
+  </div>
+  <form [formGroup]="registerForm"
+        (ngSubmit)="onSubmit()">
+
+    <div class="form-control">
+      <label for="name">Nombre</label>
+      <input id="name"
+             class="form-control-input"
+             [(ngModel)]="newPlace.Name"
+             formControlName="name"
+             [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched || submitted) }"
+             required>
+
+      <div *ngIf="name.invalid && (name.dirty || name.touched || submitted)"
+           class="alert alert-danger">
+
+        <div *ngIf="name.errors.required">
+          El campo nombre es requerido.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label for="description">Descripción</label>
+      <input id="description"
+             class="form-control-input"
+             [(ngModel)]="newPlace.Description"
+             formControlName="description"
+             [ngClass]="{ 'is-invalid': description.invalid && (description.dirty || description.touched || submitted) }"
+             required>
+
+      <div *ngIf="description.invalid && (description.dirty || description.touched || submitted)"
+           class="alert alert-danger">
+
+        <div *ngIf="description.errors.required">
+          El campo correo electrónico es requerido.
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-button">Crear</button>
+  </form>
+</div>

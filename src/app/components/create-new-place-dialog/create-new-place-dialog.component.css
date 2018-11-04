@@ -1,0 +1,12 @@
+.is-invalid {
+  background-color: rgb(231, 133, 142);
+  border: 0.5px solid #DC3545;
+}
+
+.title-place-dialog {
+  background-color: #880e4f;
+}
+
+.submit-button {
+  background-color: rgb(140, 250, 140);
+}

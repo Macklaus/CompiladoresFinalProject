@@ -1,0 +1,4 @@
+.is-invalid {
+  background-color: rgb(231, 133, 142);
+  border: 0.5px solid #DC3545;
+}

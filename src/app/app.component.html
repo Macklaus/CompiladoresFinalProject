@@ -2,19 +2,26 @@
   <header class="flex-row-wrap">
     <h1 class="indieFlowerFontFamily">Places and More Places</h1>
     <div class="logInContainer flex-row-wrap">
-      <div><a href="">Registrate</a></div>
-      <div><a href="">Inicia Sesión</a></div>
+      <div><a (click)="openRegisterDialog()"
+           *ngIf="!userID">Registrate</a></div>
+      <div><a (click)="openLoginDialog()"
+           *ngIf="!userID">Inicia Sesión</a></div>
+      <div><a (click)="logout()"
+           *ngIf="userID">Cerrar Sesión</a></div>
     </div>
   </header>
   <div class="bodyContainer">
     <div class="filterContainer flex-row-wrap">
       <div class="flex-row-wrap">
-        <div [ngClass]="activeFilter ? 'filterActivated' : 'filterNoActivated'"
+        <div [ngClass]="activeAllFilter ? 'filterActivated' : 'filterNoActivated'"
              (click)="allPlaces()"><a>Todos Los Lugares</a></div>
-        <div [ngClass]="activeFilter ? 'filterNoActivated' : 'filterActivated'"
-             (click)="filterByMyOwnPlaces()"><a>Mis Lugares</a></div>
+        <div [ngClass]="activeOnlyMeFilter ? 'filterActivated' : 'filterNoActivated'"
+             (click)="filterByMyOwnPlaces()"
+             *ngIf="userID"><a>Mis Lugares</a></div>
       </div>
-      <div class="addNewPlace">
+      <div class="addNewPlace"
+           *ngIf="userID"
+           (click)="openCreateNewPlaceDialog()">
         +
       </div>
     </div>
@@ -26,7 +33,7 @@
         </div>
       </div>
       <div class="sidebar">
-        <span class="indieFlowerFontFamily">Todos tus lugares favoritos en este lugar</span>
+        <div class="indieFlowerFontFamily">Todos tus lugares favoritos en este lugar</div>
       </div>
     </div>
   </div>

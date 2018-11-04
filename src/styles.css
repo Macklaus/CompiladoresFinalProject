@@ -10,11 +10,94 @@
 }
 
 body {
-  background-color: lightgray;
+  background-color: rgb(238, 238, 238);
   overflow: hidden;
 }
 
 .flex-row-wrap {
   display: flex;
   flex-flow: row wrap;
+}
+
+.cdk-overlay-pane .mat-dialog-container {
+  padding: 0;
+}
+
+.alert-danger div {
+  color: #DF5F6C;
+}
+
+.form-control label {
+  color: black;
+}
+
+.dialogContainer div h2 {
+  padding: 15px 0;
+  border-radius: 5px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.backgroundColorRed {
+  background-color: #9B0022;
+}
+
+.dialogContainer {
+  padding: 30px;
+  width: 500px;
+  background-color: #FFFFFF;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 5px;
+  font-size: 1.1em;
+  border-radius: 2px;
+  border: none;
+  background-color: rgb(79, 177, 79);
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.form-control-input {
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #EEEEEE;
+  border: 0.5px solid #E1E1E1;
+}
+
+@media (max-width: 670px) {
+  body {
+    overflow: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .dialogContainer {
+    width: 100%;
+    min-width: 300px;
+  }
+}
+
+@media (max-width: 520px) {
+
+  .cdk-global-overlay-wrapper {
+    align-items: flex-start !important;
+  }
+
+  .mat-dialog-container {
+    border-radius: 0 !important;
+  }
+
+  .cdk-overlay-pane {
+    max-width: none !important;
+    width: 100vw !important;
+  }
 }

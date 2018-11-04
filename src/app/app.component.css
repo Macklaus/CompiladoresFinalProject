@@ -5,17 +5,16 @@
 }
 
 header {
-  height: 10vh;
   padding: 10px 20px;
   justify-content: space-between;
-  background-color: #880E4F;
+  background-color: #880e4f;
   box-shadow: 0px 3px 10px -1px rgba(0, 0, 0, 0.75);
 }
 
 header h1,
 .logInContainer div a,
 .filterContainer div div a {
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0 15px;
 }
 
@@ -27,9 +26,12 @@ header h1,
   align-items: center;
 }
 
+.logInContainer div {
+  cursor: pointer;
+}
+
 .bodyContainer {
-  background-color: #9B0022;
-  height: 90vh;
+  background-color: #9b0022;
 }
 
 .filterContainer {
@@ -44,7 +46,7 @@ header h1,
 }
 
 .filterActivated {
-  border-bottom: 2px solid #FFFFFF;
+  border-bottom: 2px solid #ffffff;
 }
 
 .filterNoActivated {
@@ -61,18 +63,18 @@ header h1,
   border-radius: 50%;
   font-size: 30px;
   cursor: pointer;
-  background-color: #FFFFFF;
-  color: #880E4F;
+  background-color: #ffffff;
+  color: #880e4f;
   box-shadow: 0px 0px 38px -8px rgba(0, 0, 0, 1);
 }
 
 .listContainer {
   margin-top: 30px;
   min-height: 80vh;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
-.listContainer .list {
+.list {
   width: 60%;
   max-height: 72vh;
   padding: 20px 30px;
@@ -90,10 +92,52 @@ header h1,
   border-bottom: none;
 }
 
-.listContainer .sidebar {
+.sidebar {
   width: 40%;
-  padding: 20px;
-  margin-top: 50px;
   font-size: 3em;
   text-align: center;
+  background-image: url('https://elhedonista.es/wp-content/uploads/2018/01/el-hedonista-es-las-ciudades-mas-populares-en-la-musica-27.jpg');
+  background-repeat: round;
+}
+
+.sidebar div {
+  padding-top: 60px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 670px) {
+
+  .list {
+    max-height: none;
+    order: 2;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    order: 1;
+  }
+
+  .list,
+  .sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 530px) {
+  .filterContainer {
+    justify-content: center;
+  }
+
+  .addNewPlace {
+    margin-right: 0;
+  }
+
+  .filterContainer div {
+    justify-content: center;
+  }
+
+  .logInContainer {
+    margin-top: 10px;
+  }
 }
