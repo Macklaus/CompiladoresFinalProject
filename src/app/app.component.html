@@ -1,6 +1,6 @@
 <div class="appContainer">
   <header class="flex-row-wrap">
-    <h1>Places</h1>
+    <h1 class="indieFlowerFontFamily">Places and More Places</h1>
     <div class="logInContainer flex-row-wrap">
       <div><a href="">Registrate</a></div>
       <div><a href="">Inicia Sesión</a></div>
@@ -19,8 +19,15 @@
       </div>
     </div>
     <div class="listContainer flex-row-wrap">
-      <div class="list"></div>
-      <div class="sidebar"></div>
+      <div class="list">
+        <div *ngFor="let place of placesList">
+          <h2>{{place.Name}}</h2>
+          <p>{{place.Description}}</p>
+        </div>
+      </div>
+      <div class="sidebar">
+        <span class="indieFlowerFontFamily">Todos tus lugares favoritos en este lugar</span>
+      </div>
     </div>
   </div>
 </div>
