@@ -101,15 +101,29 @@ export class AppComponent implements OnInit {
     );
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (this.activeAllFilter) this.loadAllPlaces(false);
-      else this.loadAllPlaces(true);
+      this.loadAgainPlaces();
     });
+  }
+
+  private loadAgainPlaces(): void {
+    if (this.activeAllFilter) this.loadAllPlaces(false);
+    else this.loadAllPlaces(true);
   }
 
   deletePlace(place: Place): void {
     let dialogRef = this.codeToOpenSharedDialog('eliminar');
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      if (!isNullOrUndefined(result)) {
+        if (result) {
+          this.placeService
+            .delete(place._id)
+            .subscribe((response) => {
+              if (response) {
+                this.loadAgainPlaces();
+              }
+            });
+        }
+      }
     });
   }
 
@@ -124,6 +138,9 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
+    this.activeAllFilter = true;
+    this.activeOnlyMeFilter = false;
     this.userID = null;
+    this.loadAllPlaces(false);
   }
 }

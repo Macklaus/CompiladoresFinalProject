@@ -35,11 +35,16 @@ export class LoginDialogComponent implements OnInit {
     this.userService
       .login(this.user.name, this.user.password)
       .subscribe((response: User) => {
-        if (isNullOrUndefined(response))
+        if (isNullOrUndefined(response)) {
           this.snackbar.openSnackBar(
             'el nombre de usuario o contraseña son incorrectos',
           );
-        else this.dialogRef.close(response._id);
+        } else {
+          this.snackbar.openSnackBar(
+            'bienvenido '.concat(response.email),
+          );
+          this.dialogRef.close(response._id);
+        }
       });
   }
 }

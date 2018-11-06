@@ -47,10 +47,11 @@
 
     <button class="submit-button"
             *ngIf="!placeAndUserId.place">Crear</button>
-    <button *ngIf="placeAndUserId.place"
-            class="submit-button">Editar</button>
-    <button *ngIf="placeAndUserId.place"
-            class="cancel-button"
-            (click)="onNoClick()">Cancelar</button>
   </form>
+  <button *ngIf="placeAndUserId.place"
+          class="submit-button"
+          (click)="editPlace()">Editar</button>
+  <button *ngIf="placeAndUserId.place"
+          class="cancel-button"
+          (click)="onNoClick()">Cancelar</button>
 </div>

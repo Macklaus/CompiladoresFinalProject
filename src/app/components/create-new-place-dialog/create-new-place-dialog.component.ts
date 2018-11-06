@@ -78,4 +78,26 @@ export class CreateNewPlaceDialogComponent implements OnInit {
       });
     this.submitted = false;
   }
+
+  editPlace() {
+    this.submitted = true;
+    if (!this.registerForm.valid) return;
+
+    this.placeService
+      .edit(
+        this.placeAndUserId.place.name,
+        this.newPlace.description,
+        this.placeAndUserId.place._id,
+      )
+      .subscribe((result) => {
+        if (isNullOrUndefined(result)) {
+          this.snackbar.openSnackBar('Ha ocurrido algún error');
+        } else {
+          this.snackbar.openSnackBar('Se ha editado correctamente');
+          this.dialogRef.close();
+        }
+      });
+
+    this.submitted = false;
+  }
 }
