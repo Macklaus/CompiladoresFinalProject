@@ -54,15 +54,24 @@ body {
   margin: 20px 0;
 }
 
-.submit-button {
+.submit-button,
+.cancel-button {
   width: 100%;
   padding: 5px;
   font-size: 1.1em;
   border-radius: 2px;
   border: none;
+  cursor: pointer;
+}
+
+.submit-button {
   background-color: rgb(79, 177, 79);
   color: #FFFFFF;
-  cursor: pointer;
+}
+
+.cancel-button {
+  color: #000000;
+  background-color: rgb(190, 190, 190);
 }
 
 .form-control-input {

@@ -1,59 +1,61 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CreateNewPlaceDialogComponent } from './components/create-new-place-dialog/create-new-place-dialog.component';
+import { isNullOrUndefined } from 'util';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Place } from './models/place.model';
+import { PlaceService } from './services/place-services/place.service';
 import { RegisterDialogComponent } from './components/register-dialog/register-dialog.component';
+import { SharedModalDialogComponent } from './components/shared-modal-dialog/shared-modal-dialog.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   activeAllFilter = true;
   activeOnlyMeFilter = false;
   userID: string;
+  placesList: Place[];
 
-  placesList: Place[] = [
-    new Place('1', 'EAM', 'es una universidad'),
-    new Place(
-      '1',
-      'Aleatorio',
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nemo quidem autem sed aperiam corrupti odit qui accusantium earum itaque aliquam praesentium molestias, commodi possimus sint. Laboriosam labore aspernatur reprehenderit?',
-    ),
-    new Place(
-      '1',
-      'Por acá',
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nemo quidem autem sed aperiam corrupti odit qui accusantium earum itaque aliquam praesentium molestias, commodi possimus sint. Laboriosam labore aspernatur reprehenderit?',
-    ),
-    new Place(
-      '1',
-      'Por acá',
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nemo quidem autem sed aperiam corrupti odit qui accusantium earum itaque aliquam praesentium molestias, commodi possimus sint. Laboriosam labore aspernatur reprehenderit?',
-    ),
-    new Place(
-      '1',
-      'Por acá',
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nemo quidem autem sed aperiam corrupti odit qui accusantium earum itaque aliquam praesentium molestias, commodi possimus sint. Laboriosam labore aspernatur reprehenderit?',
-    ),
-    new Place(
-      '1',
-      'Por acá',
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nemo quidem autem sed aperiam corrupti odit qui accusantium earum itaque aliquam praesentium molestias, commodi possimus sint. Laboriosam labore aspernatur reprehenderit?',
-    ),
-  ];
+  constructor(
+    public dialog: MatDialog,
+    private placeService: PlaceService,
+  ) {}
 
-  constructor(public dialog: MatDialog) {}
+  ngOnInit(): void {
+    this.loadAllPlaces(false);
+  }
+
+  loadAllPlaces(filter: boolean): void {
+    this.placeService.getAll().subscribe((response: Place[]) => {
+      if (filter) {
+        if (this.userID) {
+          this.placesList = response.filter(
+            (place) => place.userId === this.userID,
+          );
+        }
+      } else {
+        this.placesList = response;
+      }
+    });
+  }
 
   allPlaces(): void {
-    this.activeAllFilter = true;
-    this.activeOnlyMeFilter = false;
+    if (!this.activeAllFilter) {
+      this.activeAllFilter = true;
+      this.activeOnlyMeFilter = false;
+      this.loadAllPlaces(false);
+    }
   }
 
   filterByMyOwnPlaces(): void {
-    this.activeAllFilter = false;
-    this.activeOnlyMeFilter = true;
+    if (!this.activeOnlyMeFilter && !isNullOrUndefined(this.userID)) {
+      this.activeOnlyMeFilter = true;
+      this.activeAllFilter = false;
+      this.loadAllPlaces(true);
+    }
   }
 
   openRegisterDialog(): void {
@@ -78,14 +80,47 @@ export class AppComponent {
   }
 
   openCreateNewPlaceDialog(): void {
+    this.codeToOpenPlaceDialog(null);
+  }
+
+  openEditPlaceDialog(place: Place): void {
+    let dialogRef = this.codeToOpenSharedDialog('editar');
+    dialogRef.afterClosed().subscribe((result) => {
+      let actionConfirmed: boolean = result;
+      if (actionConfirmed) this.codeToOpenPlaceDialog(place);
+    });
+  }
+
+  private codeToOpenPlaceDialog(place: Place) {
+    let userId = this.userID;
     const dialogRef = this.dialog.open(
       CreateNewPlaceDialogComponent,
       {
-        data: false,
+        data: { place, userId },
       },
     );
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      if (this.activeAllFilter) this.loadAllPlaces(false);
+      else this.loadAllPlaces(true);
+    });
+  }
+
+  deletePlace(place: Place): void {
+    let dialogRef = this.codeToOpenSharedDialog('eliminar');
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
+  }
+
+  private codeToOpenSharedDialog(
+    action: string,
+  ): MatDialogRef<SharedModalDialogComponent, any> {
+    const dialogRef = this.dialog.open(SharedModalDialogComponent, {
+      data: action,
+    });
+
+    return dialogRef;
   }
 
   logout(): void {

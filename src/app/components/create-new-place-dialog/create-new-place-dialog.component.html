@@ -1,6 +1,9 @@
 <div class="dialogContainer">
   <div>
-    <h2 class="title-place-dialog">Crea un Nuevo Lugar!</h2>
+    <h2 class="title-place-dialog"
+        *ngIf="!placeAndUserId.place">Crea un Nuevo Lugar!</h2>
+    <h2 class="title-place-dialog"
+        *ngIf="placeAndUserId.place">Editar este lugar</h2>
   </div>
   <form [formGroup]="registerForm"
         (ngSubmit)="onSubmit()">
@@ -9,9 +12,10 @@
       <label for="name">Nombre</label>
       <input id="name"
              class="form-control-input"
-             [(ngModel)]="newPlace.Name"
+             [(ngModel)]="newPlace.name"
              formControlName="name"
              [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched || submitted) }"
+             [attr.disabled]="placeAndUserId.place ? 'disabled' : null"
              required>
 
       <div *ngIf="name.invalid && (name.dirty || name.touched || submitted)"
@@ -25,12 +29,12 @@
 
     <div class="form-control">
       <label for="description">Descripción</label>
-      <input id="description"
-             class="form-control-input"
-             [(ngModel)]="newPlace.Description"
-             formControlName="description"
-             [ngClass]="{ 'is-invalid': description.invalid && (description.dirty || description.touched || submitted) }"
-             required>
+      <textarea id="description"
+                class="form-control-input"
+                [(ngModel)]="newPlace.description"
+                formControlName="description"
+                [ngClass]="{ 'is-invalid': description.invalid && (description.dirty || description.touched || submitted) }"
+                required></textarea>
 
       <div *ngIf="description.invalid && (description.dirty || description.touched || submitted)"
            class="alert alert-danger">
@@ -41,6 +45,12 @@
       </div>
     </div>
 
-    <button class="submit-button">Crear</button>
+    <button class="submit-button"
+            *ngIf="!placeAndUserId.place">Crear</button>
+    <button *ngIf="placeAndUserId.place"
+            class="submit-button">Editar</button>
+    <button *ngIf="placeAndUserId.place"
+            class="cancel-button"
+            (click)="onNoClick()">Cancelar</button>
   </form>
 </div>

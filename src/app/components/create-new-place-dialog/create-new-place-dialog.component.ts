@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { isNullOrUndefined } from 'util';
 import { Place } from './../../models/place.model';
+import { PlaceService } from './../../services/place-services/place.service';
+import { SnackBar } from 'src/app/services/snackbar.service';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -18,7 +21,10 @@ export class CreateNewPlaceDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CreateNewPlaceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public createPlaces: boolean,
+    @Inject(MAT_DIALOG_DATA)
+    public placeAndUserId: { place: Place; userId: string },
+    private placeService: PlaceService,
+    private snackbar: SnackBar,
   ) {}
 
   onNoClick(): void {
@@ -26,11 +32,19 @@ export class CreateNewPlaceDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.newPlace = new Place('', '', '');
+    if (isNullOrUndefined(this.placeAndUserId.place))
+      this.newPlace = new Place('', '', '');
+    else
+      this.newPlace = new Place(
+        this.placeAndUserId.place._id,
+        this.placeAndUserId.place.name,
+        this.placeAndUserId.place.description,
+      );
+
     this.registerForm = new FormGroup({
-      name: new FormControl(this.newPlace.Name, Validators.required),
+      name: new FormControl(this.newPlace.name, Validators.required),
       description: new FormControl(
-        this.newPlace.Description,
+        this.newPlace.description,
         Validators.required,
       ),
     });
@@ -48,7 +62,20 @@ export class CreateNewPlaceDialogComponent implements OnInit {
     this.submitted = true;
     if (!this.registerForm.valid) return;
 
-    this.dialogRef.close('userId');
+    this.placeService
+      .create(
+        this.newPlace.name,
+        this.newPlace.description,
+        this.placeAndUserId.userId,
+      )
+      .subscribe((response: Place) => {
+        if (isNullOrUndefined(response)) {
+          this.snackbar.openSnackBar('Ha ocurrido algún error');
+        } else {
+          this.snackbar.openSnackBar('Se ha creado correctamente');
+          this.dialogRef.close();
+        }
+      });
     this.submitted = false;
   }
 }

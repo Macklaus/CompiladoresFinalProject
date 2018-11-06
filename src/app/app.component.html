@@ -27,9 +27,24 @@
     </div>
     <div class="listContainer flex-row-wrap">
       <div class="list">
-        <div *ngFor="let place of placesList">
-          <h2>{{place.Name}}</h2>
-          <p>{{place.Description}}</p>
+        <div *ngFor="let place of placesList"
+             class="place-data">
+          <div class="place-name flex-row-wrap">
+            <h2>{{place.name}}</h2>
+            <div *ngIf="userID && activeOnlyMeFilter">
+              <i class="material-icons"
+                 title="Editar"
+                 (click)="openEditPlaceDialog(place)">
+                create
+              </i>
+              <i class="material-icons"
+                 title="Eliminar"
+                 (click)="deletePlace(place)">
+                delete
+              </i>
+            </div>
+          </div>
+          <p>{{place.description}}</p>
         </div>
       </div>
       <div class="sidebar">

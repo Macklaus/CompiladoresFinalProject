@@ -1,4 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { isNullOrUndefined } from 'util';
+import { SnackBar } from './../../services/snackbar.service';
+import { User } from './../../models/user.model';
+import { UserService } from './../../services/user-services/user.service';
 import {
   FormBuilder,
   FormGroup,
@@ -36,7 +40,8 @@ export class RegisterDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<RegisterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public userRegistered: boolean,
-    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private snackBar: SnackBar,
   ) {}
 
   onNoClick(): void {
@@ -80,7 +85,20 @@ export class RegisterDialogComponent implements OnInit {
       return;
     }
 
-    this.dialogRef.close('userId');
+    this.userService
+      .create(this.user.name, this.user.email, this.user.password)
+      .subscribe((response: User) => {
+        if (isNullOrUndefined(response)) {
+          this.dialogRef.close(null);
+          this.snackBar.openSnackBar('Ha ocurrido un error');
+        } else {
+          this.snackBar.openSnackBar(
+            'El usuario se ha creado correctamente',
+          );
+          this.dialogRef.close(response._id);
+        }
+      });
+
     this.submitted = false;
     this.confirmPasswordIsOk = true;
   }

@@ -1,31 +1,40 @@
 export class Place {
-  private _id: string;
+  private id: string;
   private _name: string;
   private _description: string;
+  private _userId: string;
 
   constructor(id: string, name: string, description: string) {
-    this._id = id;
+    this.id = id;
     this._name = name;
     this._description = description;
   }
 
-  get Id() {
+  get _id() {
     return this._id;
   }
 
-  get Name() {
+  get name() {
     return this._name;
   }
 
-  set Name(newName: string) {
+  set name(newName: string) {
     this._name = newName;
   }
 
-  get Description() {
+  get description() {
     return this._description;
   }
 
-  set Description(newDescription: string) {
+  set description(newDescription: string) {
     this._description = newDescription;
+  }
+
+  get userId() {
+    return this._userId;
+  }
+
+  set userId(userId: string) {
+    this._userId = userId;
   }
 }

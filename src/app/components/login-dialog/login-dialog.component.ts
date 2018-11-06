@@ -1,4 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { isNullOrUndefined } from 'util';
+import { SnackBar } from './../../services/snackbar.service';
+import { User } from './../../models/user.model';
+import { UserService } from './../../services/user-services/user.service';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -17,6 +21,8 @@ export class LoginDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public userRegistered: boolean,
+    private userService: UserService,
+    private snackbar: SnackBar,
   ) {}
 
   onNoClick(): void {
@@ -26,6 +32,14 @@ export class LoginDialogComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(): void {
-    this.dialogRef.close('userId');
+    this.userService
+      .login(this.user.name, this.user.password)
+      .subscribe((response: User) => {
+        if (isNullOrUndefined(response))
+          this.snackbar.openSnackBar(
+            'el nombre de usuario o contraseña son incorrectos',
+          );
+        else this.dialogRef.close(response._id);
+      });
   }
 }

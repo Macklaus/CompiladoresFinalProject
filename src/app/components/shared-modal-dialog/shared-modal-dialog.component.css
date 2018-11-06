@@ -1,0 +1,11 @@
+.submit-button,
+.cancel-button {
+  width: 50%;
+}
+
+.confirm-question {
+  text-align: center;
+  font-size: 1.3em;
+  color: #000000;
+  margin-bottom: 20px;
+}
